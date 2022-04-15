@@ -1,9 +1,12 @@
 <script>
-	import { Router } from 'svelte-router-spa';
-	import { routes } from './routes.js';
-	
-	</script>
+	import { Router } from "svelte-router-spa";
+	import { routes } from "./routes.js";
+</script>
 
-	<main>
-		<Router {routes} />
-	</main>
+<main>
+	<section class="section">
+		<div class="container">
+			<Router {routes} />
+		</div>
+	</section>
+</main>
