@@ -1,3 +1,4 @@
+backend/knexfile.js
 # Logs
 logs
 *.log
