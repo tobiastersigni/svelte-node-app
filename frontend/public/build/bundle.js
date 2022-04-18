@@ -4559,6 +4559,8 @@ var app = (function () {
     	}
     }
 
+    var times = { times: { width: 1408, height: 1792, paths: [{ d: 'M1298 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z' }] } };
+
     var refresh = { refresh: { width: 1536, height: 1792, paths: [{ d: 'M1511 1056q0 5-1 7-64 268-268 434.5t-478 166.5q-146 0-282.5-55t-243.5-157l-129 129q-19 19-45 19t-45-19-19-45v-448q0-26 19-45t45-19h448q26 0 45 19t19 45-19 45l-137 137q71 66 161 102t187 36q134 0 250-65t186-179q11-17 53-117 8-23 30-23h192q13 0 22.5 9.5t9.5 22.5zM1536 256v448q0 26-19 45t-45 19h-448q-26 0-45-19t-19-45 19-45l138-138q-148-137-349-137-134 0-250 65t-186 179q-11 17-53 117-8 23-30 23h-199q-13 0-22.5-9.5t-9.5-22.5v-7q65-268 270-434.5t480-166.5q146 0 284 55.5t245 156.5l130-129q19-19 45-19t45 19 19 45z' }] } };
 
     var bind = function bind(fn, thisArg) {
@@ -6314,19 +6316,26 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
+    	child_ctx[19] = list[i];
     	return child_ctx;
     }
 
-    // (46:4) {:else}
+    // (112:4) {:else}
     function create_else_block(ctx) {
+    	let button;
+    	let t1;
     	let table;
     	let thead;
     	let tr;
     	let th0;
-    	let t1;
-    	let th1;
     	let t3;
+    	let th1;
+    	let t5;
+    	let th2;
+    	let t6;
+    	let current;
+    	let mounted;
+    	let dispose;
     	let each_value = /*lunchWeekList*/ ctx[0];
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -6335,44 +6344,67 @@ var app = (function () {
     		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     	}
 
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
     	const block = {
     		c: function create() {
+    			button = element("button");
+    			button.textContent = "Add Lunch Week";
+    			t1 = space();
     			table = element("table");
     			thead = element("thead");
     			tr = element("tr");
     			th0 = element("th");
     			th0.textContent = "Week Of";
-    			t1 = space();
+    			t3 = space();
     			th1 = element("th");
     			th1.textContent = "Published";
-    			t3 = space();
+    			t5 = space();
+    			th2 = element("th");
+    			t6 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(th0, file$3, 49, 16, 1436);
-    			add_location(th1, file$3, 50, 16, 1469);
-    			add_location(tr, file$3, 48, 12, 1415);
-    			add_location(thead, file$3, 47, 8, 1395);
+    			attr_dev(button, "class", "button is-text is-small mb-1");
+    			add_location(button, file$3, 112, 8, 3447);
+    			add_location(th0, file$3, 121, 20, 3697);
+    			add_location(th1, file$3, 122, 20, 3734);
+    			add_location(th2, file$3, 123, 20, 3773);
+    			add_location(tr, file$3, 120, 16, 3672);
+    			add_location(thead, file$3, 119, 12, 3648);
     			attr_dev(table, "class", "table");
-    			add_location(table, file$3, 46, 4, 1365);
+    			add_location(table, file$3, 118, 8, 3614);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			insert_dev(target, t1, anchor);
     			insert_dev(target, table, anchor);
     			append_dev(table, thead);
     			append_dev(thead, tr);
     			append_dev(tr, th0);
-    			append_dev(tr, t1);
+    			append_dev(tr, t3);
     			append_dev(tr, th1);
-    			append_dev(table, t3);
+    			append_dev(tr, t5);
+    			append_dev(tr, th2);
+    			append_dev(table, t6);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(table, null);
     			}
+
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[12], false, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*openLunchWeekDetails, lunchWeekList*/ 9) {
+    			if (dirty & /*openDeleteModal, lunchWeekList, times, openLunchWeekDetails*/ 1153) {
     				each_value = /*lunchWeekList*/ ctx[0];
     				validate_each_argument(each_value);
     				let i;
@@ -6382,25 +6414,49 @@ var app = (function () {
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(table, null);
     					}
     				}
 
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
     				}
 
-    				each_blocks.length = each_value.length;
+    				check_outros();
     			}
     		},
-    		i: noop,
-    		o: noop,
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(table);
     			destroy_each(each_blocks, detaching);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -6408,14 +6464,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(46:4) {:else}",
+    		source: "(112:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:4) {#if loading}
+    // (108:4) {#if loading}
     function create_if_block$1(ctx) {
     	let div;
     	let icon;
@@ -6431,7 +6487,7 @@ var app = (function () {
     			div = element("div");
     			create_component(icon.$$.fragment);
     			attr_dev(div, "class", "section");
-    			add_location(div, file$3, 42, 4, 1269);
+    			add_location(div, file$3, 108, 8, 3339);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -6458,26 +6514,35 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(42:4) {#if loading}",
+    		source: "(108:4) {#if loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (54:8) {#each lunchWeekList as lunchWeek}
+    // (127:12) {#each lunchWeekList as lunchWeek}
     function create_each_block(ctx) {
     	let tr;
     	let td0;
-    	let t0_value = /*lunchWeek*/ ctx[4].weekOf + "";
+    	let t0_value = /*lunchWeek*/ ctx[19].weekOf + "";
     	let t0;
     	let t1;
     	let td1;
-    	let t2_value = /*lunchWeek*/ ctx[4].isPublished + "";
+    	let t2_value = /*lunchWeek*/ ctx[19].isPublished + "";
     	let t2;
     	let t3;
+    	let td2;
+    	let icon;
+    	let t4;
+    	let current;
     	let mounted;
     	let dispose;
+
+    	icon = new Icon({
+    			props: { style: "margin-top: 4px;", data: times },
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
@@ -6488,11 +6553,15 @@ var app = (function () {
     			td1 = element("td");
     			t2 = text(t2_value);
     			t3 = space();
-    			add_location(td0, file$3, 59, 16, 1749);
-    			add_location(td1, file$3, 60, 16, 1793);
-    			attr_dev(tr, "class", "has-text-link");
-    			set_style(tr, "cursor", "pointer");
-    			add_location(tr, file$3, 54, 12, 1578);
+    			td2 = element("td");
+    			create_component(icon.$$.fragment);
+    			t4 = space();
+    			attr_dev(td0, "class", "has-text-link clickable svelte-s66s5j");
+    			add_location(td0, file$3, 128, 20, 3911);
+    			add_location(td1, file$3, 133, 20, 4128);
+    			attr_dev(td2, "class", "has-text-grey-light clickable svelte-s66s5j");
+    			add_location(td2, file$3, 135, 20, 4269);
+    			add_location(tr, file$3, 127, 16, 3886);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -6502,31 +6571,57 @@ var app = (function () {
     			append_dev(tr, td1);
     			append_dev(td1, t2);
     			append_dev(tr, t3);
+    			append_dev(tr, td2);
+    			mount_component(icon, td2, null);
+    			append_dev(tr, t4);
+    			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(
-    					tr,
-    					"click",
-    					function () {
-    						if (is_function(/*openLunchWeekDetails*/ ctx[3](/*lunchWeek*/ ctx[4]))) /*openLunchWeekDetails*/ ctx[3](/*lunchWeek*/ ctx[4]).apply(this, arguments);
-    					},
-    					false,
-    					false,
-    					false
-    				);
+    				dispose = [
+    					listen_dev(
+    						td0,
+    						"click",
+    						function () {
+    							if (is_function(/*openLunchWeekDetails*/ ctx[7](/*lunchWeek*/ ctx[19]))) /*openLunchWeekDetails*/ ctx[7](/*lunchWeek*/ ctx[19]).apply(this, arguments);
+    						},
+    						false,
+    						false,
+    						false
+    					),
+    					listen_dev(
+    						td2,
+    						"click",
+    						function () {
+    							if (is_function(/*openDeleteModal*/ ctx[10](/*lunchWeek*/ ctx[19]))) /*openDeleteModal*/ ctx[10](/*lunchWeek*/ ctx[19]).apply(this, arguments);
+    						},
+    						false,
+    						false,
+    						false
+    					)
+    				];
 
     				mounted = true;
     			}
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*lunchWeekList*/ 1 && t0_value !== (t0_value = /*lunchWeek*/ ctx[4].weekOf + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*lunchWeekList*/ 1 && t2_value !== (t2_value = /*lunchWeek*/ ctx[4].isPublished + "")) set_data_dev(t2, t2_value);
+    			if ((!current || dirty & /*lunchWeekList*/ 1) && t0_value !== (t0_value = /*lunchWeek*/ ctx[19].weekOf + "")) set_data_dev(t0, t0_value);
+    			if ((!current || dirty & /*lunchWeekList*/ 1) && t2_value !== (t2_value = /*lunchWeek*/ ctx[19].isPublished + "")) set_data_dev(t2, t2_value);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(icon.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(icon.$$.fragment, local);
+    			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(tr);
+    			destroy_component(icon);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -6534,7 +6629,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(54:8) {#each lunchWeekList as lunchWeek}",
+    		source: "(127:12) {#each lunchWeekList as lunchWeek}",
     		ctx
     	});
 
@@ -6542,7 +6637,7 @@ var app = (function () {
     }
 
     function create_fragment$3(ctx) {
-    	let div;
+    	let div0;
     	let nav;
     	let ul;
     	let li0;
@@ -6553,12 +6648,57 @@ var app = (function () {
     	let t3;
     	let li2;
     	let a2;
-    	let t4_value = /*$user*/ ctx[2].schoolName + "";
+    	let t4_value = /*$user*/ ctx[6].schoolName + "";
     	let t4;
     	let t5;
     	let current_block_type_index;
     	let if_block;
+    	let t6;
+    	let div5;
+    	let div1;
+    	let t7;
+    	let div4;
+    	let header0;
+    	let p0;
+    	let t9;
+    	let button0;
+    	let t10;
+    	let section0;
+    	let div3;
+    	let label;
+    	let t12;
+    	let div2;
+    	let input;
+    	let t13;
+    	let footer0;
+    	let button1;
+    	let t15;
+    	let button2;
+    	let div5_class_value;
+    	let t17;
+    	let div8;
+    	let div6;
+    	let t18;
+    	let div7;
+    	let header1;
+    	let p1;
+    	let t20;
+    	let button3;
+    	let t21;
+    	let section1;
+    	let t22;
+    	let t23_value = /*weekToDelete*/ ctx[5].weekOf + "";
+    	let t23;
+    	let t24;
+    	let t25;
+    	let footer1;
+    	let button4;
+    	let t27;
+    	let button5;
+    	let div8_class_value;
     	let current;
+    	let mounted;
+    	let dispose;
     	const if_block_creators = [create_if_block$1, create_else_block];
     	const if_blocks = [];
 
@@ -6572,7 +6712,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			div0 = element("div");
     			nav = element("nav");
     			ul = element("ul");
     			li0 = element("li");
@@ -6588,28 +6728,129 @@ var app = (function () {
     			t4 = text(t4_value);
     			t5 = space();
     			if_block.c();
+    			t6 = space();
+    			div5 = element("div");
+    			div1 = element("div");
+    			t7 = space();
+    			div4 = element("div");
+    			header0 = element("header");
+    			p0 = element("p");
+    			p0.textContent = "Create Lunch Week";
+    			t9 = space();
+    			button0 = element("button");
+    			t10 = space();
+    			section0 = element("section");
+    			div3 = element("div");
+    			label = element("label");
+    			label.textContent = "Week Of";
+    			t12 = space();
+    			div2 = element("div");
+    			input = element("input");
+    			t13 = space();
+    			footer0 = element("footer");
+    			button1 = element("button");
+    			button1.textContent = "Continue";
+    			t15 = space();
+    			button2 = element("button");
+    			button2.textContent = "Cancel";
+    			t17 = space();
+    			div8 = element("div");
+    			div6 = element("div");
+    			t18 = space();
+    			div7 = element("div");
+    			header1 = element("header");
+    			p1 = element("p");
+    			p1.textContent = "Warning";
+    			t20 = space();
+    			button3 = element("button");
+    			t21 = space();
+    			section1 = element("section");
+    			t22 = text("Delete Week of ");
+    			t23 = text(t23_value);
+    			t24 = text("?");
+    			t25 = space();
+    			footer1 = element("footer");
+    			button4 = element("button");
+    			button4.textContent = "Continue";
+    			t27 = space();
+    			button5 = element("button");
+    			button5.textContent = "Cancel";
     			attr_dev(a0, "href", "/");
-    			add_location(a0, file$3, 31, 16, 967);
-    			add_location(li0, file$3, 30, 12, 946);
+    			add_location(a0, file$3, 97, 16, 3033);
+    			add_location(li0, file$3, 96, 12, 3012);
     			attr_dev(a1, "href", "/admin/manage-menus");
-    			add_location(a1, file$3, 34, 16, 1039);
-    			add_location(li1, file$3, 33, 12, 1018);
+    			add_location(a1, file$3, 100, 16, 3105);
+    			add_location(li1, file$3, 99, 12, 3084);
     			attr_dev(a2, "href", "/#");
-    			add_location(a2, file$3, 37, 16, 1168);
+    			add_location(a2, file$3, 103, 16, 3234);
     			attr_dev(li2, "class", "is-active");
-    			add_location(li2, file$3, 36, 12, 1129);
-    			add_location(ul, file$3, 29, 8, 929);
+    			add_location(li2, file$3, 102, 12, 3195);
+    			add_location(ul, file$3, 95, 8, 2995);
     			attr_dev(nav, "class", "breadcrumb");
     			attr_dev(nav, "aria-label", "breadcrumbs");
-    			add_location(nav, file$3, 28, 4, 871);
-    			add_location(div, file$3, 27, 0, 861);
+    			add_location(nav, file$3, 94, 4, 2937);
+    			add_location(div0, file$3, 93, 0, 2927);
+    			attr_dev(div1, "class", "modal-background");
+    			add_location(div1, file$3, 149, 4, 4701);
+    			attr_dev(p0, "class", "modal-card-title");
+    			add_location(p0, file$3, 152, 8, 4814);
+    			attr_dev(button0, "class", "delete");
+    			attr_dev(button0, "aria-label", "close");
+    			add_location(button0, file$3, 153, 8, 4872);
+    			attr_dev(header0, "class", "modal-card-head");
+    			add_location(header0, file$3, 151, 6, 4773);
+    			attr_dev(label, "class", "label");
+    			attr_dev(label, "for", "week-of");
+    			add_location(label, file$3, 157, 10, 5063);
+    			attr_dev(input, "id", "week-of");
+    			attr_dev(input, "type", "date");
+    			attr_dev(input, "class", "input");
+    			attr_dev(input, "placeholder", "yyyy-mm-dd");
+    			add_location(input, file$3, 160, 12, 5251);
+    			attr_dev(div2, "class", "control");
+    			add_location(div2, file$3, 158, 10, 5124);
+    			attr_dev(div3, "class", "field");
+    			add_location(div3, file$3, 156, 8, 5033);
+    			attr_dev(section0, "class", "modal-card-body");
+    			add_location(section0, file$3, 155, 6, 4991);
+    			attr_dev(button1, "class", "button is-success");
+    			add_location(button1, file$3, 165, 8, 5453);
+    			attr_dev(button2, "class", "button");
+    			add_location(button2, file$3, 166, 8, 5550);
+    			attr_dev(footer0, "class", "modal-card-foot");
+    			add_location(footer0, file$3, 164, 6, 5412);
+    			attr_dev(div4, "class", "modal-card");
+    			add_location(div4, file$3, 150, 4, 4742);
+    			attr_dev(div5, "class", div5_class_value = /*showCreateModal*/ ctx[2] ? 'modal is-active' : 'modal');
+    			add_location(div5, file$3, 148, 0, 4635);
+    			attr_dev(div6, "class", "modal-background");
+    			add_location(div6, file$3, 173, 4, 5774);
+    			attr_dev(p1, "class", "modal-card-title");
+    			add_location(p1, file$3, 176, 12, 5889);
+    			attr_dev(button3, "class", "delete");
+    			attr_dev(button3, "aria-label", "close");
+    			add_location(button3, file$3, 177, 12, 5941);
+    			attr_dev(header1, "class", "modal-card-head");
+    			add_location(header1, file$3, 175, 8, 5844);
+    			attr_dev(section1, "class", "modal-card-body");
+    			add_location(section1, file$3, 183, 8, 6115);
+    			attr_dev(button4, "class", "button is-success");
+    			add_location(button4, file$3, 187, 12, 6271);
+    			attr_dev(button5, "class", "button");
+    			add_location(button5, file$3, 191, 12, 6421);
+    			attr_dev(footer1, "class", "modal-card-foot");
+    			add_location(footer1, file$3, 186, 8, 6226);
+    			attr_dev(div7, "class", "modal-card");
+    			add_location(div7, file$3, 174, 4, 5811);
+    			attr_dev(div8, "class", div8_class_value = /*showDeleteModal*/ ctx[4] ? "modal is-active" : "modal");
+    			add_location(div8, file$3, 172, 0, 5710);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, nav);
+    			insert_dev(target, div0, anchor);
+    			append_dev(div0, nav);
     			append_dev(nav, ul);
     			append_dev(ul, li0);
     			append_dev(li0, a0);
@@ -6620,12 +6861,77 @@ var app = (function () {
     			append_dev(ul, li2);
     			append_dev(li2, a2);
     			append_dev(a2, t4);
-    			append_dev(div, t5);
-    			if_blocks[current_block_type_index].m(div, null);
+    			append_dev(div0, t5);
+    			if_blocks[current_block_type_index].m(div0, null);
+    			insert_dev(target, t6, anchor);
+    			insert_dev(target, div5, anchor);
+    			append_dev(div5, div1);
+    			append_dev(div5, t7);
+    			append_dev(div5, div4);
+    			append_dev(div4, header0);
+    			append_dev(header0, p0);
+    			append_dev(header0, t9);
+    			append_dev(header0, button0);
+    			append_dev(div4, t10);
+    			append_dev(div4, section0);
+    			append_dev(section0, div3);
+    			append_dev(div3, label);
+    			append_dev(div3, t12);
+    			append_dev(div3, div2);
+    			append_dev(div2, input);
+    			set_input_value(input, /*createWeekOfDate*/ ctx[3]);
+    			append_dev(div4, t13);
+    			append_dev(div4, footer0);
+    			append_dev(footer0, button1);
+    			append_dev(footer0, t15);
+    			append_dev(footer0, button2);
+    			insert_dev(target, t17, anchor);
+    			insert_dev(target, div8, anchor);
+    			append_dev(div8, div6);
+    			append_dev(div8, t18);
+    			append_dev(div8, div7);
+    			append_dev(div7, header1);
+    			append_dev(header1, p1);
+    			append_dev(header1, t20);
+    			append_dev(header1, button3);
+    			append_dev(div7, t21);
+    			append_dev(div7, section1);
+    			append_dev(section1, t22);
+    			append_dev(section1, t23);
+    			append_dev(section1, t24);
+    			append_dev(div7, t25);
+    			append_dev(div7, footer1);
+    			append_dev(footer1, button4);
+    			append_dev(footer1, t27);
+    			append_dev(footer1, button5);
     			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(button0, "click", /*click_handler_1*/ ctx[13], false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[14]),
+    					listen_dev(button1, "click", /*click_handler_2*/ ctx[15], false, false, false),
+    					listen_dev(button2, "click", /*click_handler_3*/ ctx[16], false, false, false),
+    					listen_dev(button3, "click", /*click_handler_4*/ ctx[17], false, false, false),
+    					listen_dev(
+    						button4,
+    						"click",
+    						function () {
+    							if (is_function(/*deleteLunchWeek*/ ctx[11](/*weekToDelete*/ ctx[5]))) /*deleteLunchWeek*/ ctx[11](/*weekToDelete*/ ctx[5]).apply(this, arguments);
+    						},
+    						false,
+    						false,
+    						false
+    					),
+    					listen_dev(button5, "click", /*click_handler_5*/ ctx[18], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
     		},
-    		p: function update(ctx, [dirty]) {
-    			if ((!current || dirty & /*$user*/ 4) && t4_value !== (t4_value = /*$user*/ ctx[2].schoolName + "")) set_data_dev(t4, t4_value);
+    		p: function update(new_ctx, [dirty]) {
+    			ctx = new_ctx;
+    			if ((!current || dirty & /*$user*/ 64) && t4_value !== (t4_value = /*$user*/ ctx[6].schoolName + "")) set_data_dev(t4, t4_value);
     			let previous_block_index = current_block_type_index;
     			current_block_type_index = select_block_type(ctx);
 
@@ -6649,7 +6955,21 @@ var app = (function () {
     				}
 
     				transition_in(if_block, 1);
-    				if_block.m(div, null);
+    				if_block.m(div0, null);
+    			}
+
+    			if (dirty & /*createWeekOfDate*/ 8) {
+    				set_input_value(input, /*createWeekOfDate*/ ctx[3]);
+    			}
+
+    			if (!current || dirty & /*showCreateModal*/ 4 && div5_class_value !== (div5_class_value = /*showCreateModal*/ ctx[2] ? 'modal is-active' : 'modal')) {
+    				attr_dev(div5, "class", div5_class_value);
+    			}
+
+    			if ((!current || dirty & /*weekToDelete*/ 32) && t23_value !== (t23_value = /*weekToDelete*/ ctx[5].weekOf + "")) set_data_dev(t23, t23_value);
+
+    			if (!current || dirty & /*showDeleteModal*/ 16 && div8_class_value !== (div8_class_value = /*showDeleteModal*/ ctx[4] ? "modal is-active" : "modal")) {
+    				attr_dev(div8, "class", div8_class_value);
     			}
     		},
     		i: function intro(local) {
@@ -6662,8 +6982,14 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div0);
     			if_blocks[current_block_type_index].d();
+    			if (detaching) detach_dev(t6);
+    			if (detaching) detach_dev(div5);
+    			if (detaching) detach_dev(t17);
+    			if (detaching) detach_dev(div8);
+    			mounted = false;
+    			run_all(dispose);
     		}
     	};
 
@@ -6681,26 +7007,89 @@ var app = (function () {
     function instance$3($$self, $$props, $$invalidate) {
     	let $user;
     	validate_store(user, 'user');
-    	component_subscribe($$self, user, $$value => $$invalidate(2, $user = $$value));
+    	component_subscribe($$self, user, $$value => $$invalidate(6, $user = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('LunchMenuAdmin', slots, []);
     	let lunchWeekList = [];
     	let loading = true;
+    	let showCreateModal = false;
+    	let createWeekOfDate = null;
+    	let showDeleteModal = false;
+    	let weekToDelete = {};
 
     	onMount(async () => {
     		try {
     			let response = await axios.get(`${"http://localhost:3000"}/api/lunch-weeks`);
     			$$invalidate(0, lunchWeekList = response.data);
-    			await new Promise(f => setTimeout(f, 2000));
     			$$invalidate(1, loading = false);
     		} catch(error) {
     			console.error("Error fetching lunch weeks", error);
     		}
     	});
 
-    	function openLunchWeekDetails(lunchWeek) {
+    	async function openLunchWeekDetails(lunchWeek) {
     		const route = `/admin/manage-menus/week-details/${lunchWeek.lunchWeekId}`;
     		navigateTo(route);
+    	}
+
+    	function openCreateModal() {
+    		$$invalidate(2, showCreateModal = true);
+    	}
+
+    	const createLunchWeek = async () => {
+    		$$invalidate(2, showCreateModal = false);
+
+    		let newLunchWeek = {
+    			weekOf: createWeekOfDate, // createWeekOfDate will contain the input from the user
+    			isPublished: false
+    		};
+
+    		try {
+    			$$invalidate(1, loading = true);
+
+    			// since this is a POST, we need to send a lunchWeek object as the body of the request
+    			const response = await axios.post(`${"http://localhost:3000"}/api/lunch-weeks`, newLunchWeek);
+
+    			const lunchWeekId = response.data.lunchWeekId;
+
+    			// populate the newLunchWeek with the id from the server response
+    			newLunchWeek.lunchWeekId = lunchWeekId;
+
+    			// push the result into lunchWeek list, so that
+    			// Svelte will update the table
+    			lunchWeekList.push(newLunchWeek);
+
+    			$$invalidate(1, loading = false);
+    		} catch(e) {
+    			$$invalidate(1, loading = false);
+    			console.error(e);
+    		}
+    	};
+
+    	function openDeleteModal(lunchWeek) {
+    		$$invalidate(5, weekToDelete = lunchWeek);
+    		$$invalidate(4, showDeleteModal = true);
+    	}
+
+    	async function deleteLunchWeek(lunchWeek) {
+    		$$invalidate(4, showDeleteModal = false);
+    		const lunchWeekId = lunchWeek.lunchWeekId;
+
+    		try {
+    			// show the loading spinner and call the delete endpoint
+    			$$invalidate(1, loading = true);
+
+    			await axios.delete(`${"http://localhost:3000"}/api/lunch-weeks/${lunchWeekId}`);
+
+    			// find the index of the passed in lunchWeek and use splice to remove it
+    			const deletedIndex = lunchWeekList.findIndex(x => x.lunchWeekId === lunchWeekId);
+
+    			lunchWeekList.splice(deletedIndex, 1);
+    			$$invalidate(1, loading = false);
+    		} catch(e) {
+    			$$invalidate(1, loading = false);
+    			console.error(e);
+    		}
     	}
 
     	const writable_props = [];
@@ -6709,29 +7098,75 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<LunchMenuAdmin> was created with unknown prop '${key}'`);
     	});
 
+    	const click_handler = () => openCreateModal();
+    	const click_handler_1 = () => $$invalidate(2, showCreateModal = false);
+
+    	function input_input_handler() {
+    		createWeekOfDate = this.value;
+    		$$invalidate(3, createWeekOfDate);
+    	}
+
+    	const click_handler_2 = () => createLunchWeek();
+    	const click_handler_3 = () => $$invalidate(2, showCreateModal = false);
+    	const click_handler_4 = () => $$invalidate(4, showDeleteModal = false);
+    	const click_handler_5 = () => $$invalidate(4, showDeleteModal = false);
+
     	$$self.$capture_state = () => ({
     		user,
     		onMount,
     		navigateTo,
     		Icon,
     		refresh,
+    		times,
     		axios,
     		lunchWeekList,
     		loading,
+    		showCreateModal,
+    		createWeekOfDate,
+    		showDeleteModal,
+    		weekToDelete,
     		openLunchWeekDetails,
+    		openCreateModal,
+    		createLunchWeek,
+    		openDeleteModal,
+    		deleteLunchWeek,
     		$user
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('lunchWeekList' in $$props) $$invalidate(0, lunchWeekList = $$props.lunchWeekList);
     		if ('loading' in $$props) $$invalidate(1, loading = $$props.loading);
+    		if ('showCreateModal' in $$props) $$invalidate(2, showCreateModal = $$props.showCreateModal);
+    		if ('createWeekOfDate' in $$props) $$invalidate(3, createWeekOfDate = $$props.createWeekOfDate);
+    		if ('showDeleteModal' in $$props) $$invalidate(4, showDeleteModal = $$props.showDeleteModal);
+    		if ('weekToDelete' in $$props) $$invalidate(5, weekToDelete = $$props.weekToDelete);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [lunchWeekList, loading, $user, openLunchWeekDetails];
+    	return [
+    		lunchWeekList,
+    		loading,
+    		showCreateModal,
+    		createWeekOfDate,
+    		showDeleteModal,
+    		weekToDelete,
+    		$user,
+    		openLunchWeekDetails,
+    		openCreateModal,
+    		createLunchWeek,
+    		openDeleteModal,
+    		deleteLunchWeek,
+    		click_handler,
+    		click_handler_1,
+    		input_input_handler,
+    		click_handler_2,
+    		click_handler_3,
+    		click_handler_4,
+    		click_handler_5
+    	];
     }
 
     class LunchMenuAdmin extends SvelteComponentDev {
