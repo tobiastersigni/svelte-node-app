@@ -29,6 +29,10 @@ function deleteLunchWeek(lunchWeekId) {
     return knex('lunch_week').where('lunch_week_id', lunchWeekId).del();
 }
 
+const getLunchDayList = (lunchWeekId) => {
+    return knex.select().from('lunch_day').where('lunch_week_id', lunchWeekId)
+}
+
 function getLunchDayById(id) {
     return knex.select().from('lunch_day').where('lunch_day_id', id).first();
 }
@@ -69,6 +73,8 @@ router.get('/:lunchWeekId', async function (req, res) {
         const id = parseInt(req.params.lunchWeekId);
         const lunchWeek = await getLunchWeekById(id);
         if (lunchWeek) {
+            let lunchDays = await getLunchDayList(id); // get all lunch days in this week
+            lunchWeek.lunchDays = lunchDays; // add lunchDays to lunchWeek
             res.send(lunchWeek);
         } else {
             const message = `Lunch Week Id ${req.params.lunchWeekId} not found`;
@@ -163,15 +169,15 @@ router.get('/:lunchWeekId/lunch-days/:lunchDayId', async function (req, res) {
 router.post('/:lunchWeekId/lunch-days/', async function (req, res) {
     const lunchDay = req.body
     try {
-      const insertResponse = await createLunchDay(lunchDay)
-      const insertedLunchDayId = insertResponse[0]
-      const response = {
-        lunchDayId: insertedLunchDayId,
-      }
-      res.send(response)
+        const insertResponse = await createLunchDay(lunchDay)
+        const insertedLunchDayId = insertResponse[0]
+        const response = {
+            lunchDayId: insertedLunchDayId,
+        }
+        res.send(response)
     } catch (e) {
-      const message = `Error creating Lunch Day`
-      res.status(500).send({ message: message, error: e.toString() })
+        const message = `Error creating Lunch Day`
+        res.status(500).send({ message: message, error: e.toString() })
     }
 })
 
