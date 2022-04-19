@@ -66,14 +66,14 @@
             // if the item has an id, do a PUT
             if (lunchDay.lunchDayId) {
                 await axios.put(
-                    `${process.env.API_ROOT}/api/lunch-weeks/${routeLunchWeekId}/lunch-days/${lunchDay.lunchDayId}`,
+                    `${process.env.API_ROOT}/api/lunch-weeks/${routeLunchWeekId}/lunch-day/${lunchDay.lunchDayId}`,
                     lunchDay
                 );
 
                 // otherwise do a POST and assign the resulting ID
             } else {
                 const response = await axios.post(
-                    `${process.env.API_ROOT}/api/lunch-weeks/${routeLunchWeekId}/lunch-days`,
+                    `${process.env.API_ROOT}/api/lunch-weeks/${routeLunchWeekId}/lunch-day`,
                     lunchDay
                 );
                 lunchDay.lunchDayId = response.data.lunchDayId;
