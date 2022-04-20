@@ -133,3 +133,4 @@ dist
 /public/build/
 
 .DS_Store
+frontend/src/auth0-config.js
