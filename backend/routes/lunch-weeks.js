@@ -1,7 +1,7 @@
 
 var express = require('express');
 var router = express.Router();
-const knex = require('../database/client');
+let knex;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Database calls - START
@@ -58,6 +58,8 @@ function deleteLunchDay(lunchDayId) {
 
 // Get all lunch weeks
 router.get('/', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const lunchWeekList = await getLunchWeekList();
         res.send(lunchWeekList);
@@ -69,6 +71,8 @@ router.get('/', async function (req, res) {
 
 // Get one lunch week by id
 router.get('/:lunchWeekId', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const id = parseInt(req.params.lunchWeekId);
         const lunchWeek = await getLunchWeekById(id);
@@ -93,6 +97,8 @@ router.get('/:lunchWeekId', async function (req, res) {
 
 // Create a new lunch week
 router.post('/', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     const lunchWeek = req.body
     try {
         const insertResponse = await createLunchWeek(lunchWeek)
@@ -111,6 +117,8 @@ router.post('/', async function (req, res) {
 
 // Update a lunch week
 router.put('/:lunchWeekId', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const id = parseInt(req.params.lunchWeekId);
         const lunchWeek = req.body;
@@ -134,6 +142,8 @@ router.put('/:lunchWeekId', async function (req, res) {
 
 // Delete a lunch week
 router.delete('/:lunchWeekId', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const id = parseInt(req.params.lunchWeekId)
         await deleteLunchWeek(id)
@@ -146,6 +156,8 @@ router.delete('/:lunchWeekId', async function (req, res) {
 
 // Get one lunch day by id
 router.get('/:lunchWeekId/lunch-days/:lunchDayId', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const id = parseInt(req.params.lunchDayId);
         const lunchDay = await getLunchDayById(id);
@@ -167,6 +179,8 @@ router.get('/:lunchWeekId/lunch-days/:lunchDayId', async function (req, res) {
 });
 // Create a new lunch day
 router.post('/:lunchWeekId/lunch-days/', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     const lunchDay = req.body
     try {
         const insertResponse = await createLunchDay(lunchDay)
@@ -183,6 +197,8 @@ router.post('/:lunchWeekId/lunch-days/', async function (req, res) {
 
 // Update a lunch day
 router.put('/:lunchWeekId/lunch-days/:lunchDayId', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const id = parseInt(req.params.lunchDayId);
         const lunchDay = req.body;
@@ -206,6 +222,8 @@ router.put('/:lunchWeekId/lunch-days/:lunchDayId', async function (req, res) {
 
 // Delete a lunch day
 router.delete('/:lunchWeekId/lunch-days/:lunchDayId', async function (req, res) {
+    // use the passed in req.knex
+    knex = req.knex
     try {
         const id = parseInt(req.params.lunchDayId)
         await deleteLunchDay(id)

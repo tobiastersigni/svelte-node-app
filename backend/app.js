@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const cors = require('cors')
 const authenticateJwt = require('./authenticate-jwt') // IMPORT THE JWT FUNCTION
+const passKnex = require('./database/dynamic-knex')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
@@ -25,7 +26,7 @@ const router = express.Router()
 
 router.use('/', indexRouter)
 router.use('/users', usersRouter)
-router.use('/lunch-weeks', authenticateJwt, lunchWeekRouter) // ADD authenticateJwt AS MIDDLEWARE HERE
+router.use('/lunch-weeks', [authenticateJwt, passKnex], lunchWeekRouter)
 app.use('/api', router)
 
 module.exports = app

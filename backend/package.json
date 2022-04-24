@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "nodemon": "DEBUG=backend:* nodemon ./bin/www",
+    "nodemon": "node migrate && DEBUG=backend:* nodemon ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
