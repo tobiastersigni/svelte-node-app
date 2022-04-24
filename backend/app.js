@@ -1,17 +1,19 @@
-var express = require('express')
-var path = require('path')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var cors = require('cors') // HERE
+require('dotenv').config() // APPLY THE .env FILE TO SET SECRETS AS ENV VARS
+const express = require('express')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const cors = require('cors')
+const authenticateJwt = require('./authenticate-jwt') // IMPORT THE JWT FUNCTION
 
-var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/users')
-var lunchWeeksRouter = require('./routes/lunch-weeks')
+const indexRouter = require('./routes/index')
+const usersRouter = require('./routes/users')
+const lunchWeekRouter = require('./routes/lunch-weeks')
 
-var app = express()
+const app = express()
 
-app.use(cors()) // HERE
-app.options('*', cors()) // allows preflight for POST, PUT, DELETE
+app.use(cors())
+app.options('*', cors())
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -19,11 +21,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-var router = express.Router()
+const router = express.Router()
 
 router.use('/', indexRouter)
 router.use('/users', usersRouter)
-router.use('/lunch-weeks', lunchWeeksRouter)
+router.use('/lunch-weeks', authenticateJwt, lunchWeekRouter) // ADD authenticateJwt AS MIDDLEWARE HERE
 app.use('/api', router)
 
 module.exports = app

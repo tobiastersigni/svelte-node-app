@@ -4,7 +4,7 @@
     import { navigateTo } from "svelte-router-spa";
     import Icon from "svelte-awesome";
     import { refresh, times } from "svelte-awesome/icons";
-    import axios from "axios";
+    import axios from "../../axios-global";
 
     let lunchWeekList = [];
     let loading = true;

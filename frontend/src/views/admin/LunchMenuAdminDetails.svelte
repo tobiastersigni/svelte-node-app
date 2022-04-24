@@ -1,7 +1,7 @@
 <script>
     import { user } from "../../stores.js";
     import { onMount } from "svelte";
-    import axios from "axios";
+    import axios from "../../axios-global"; 
     import Icon from "svelte-awesome";
     import { refresh } from "svelte-awesome/icons";
     import { add, parseISO, format } from "date-fns";
