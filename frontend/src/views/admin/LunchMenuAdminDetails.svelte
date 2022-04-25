@@ -1,7 +1,7 @@
 <script>
     import { user } from "../../stores.js";
     import { onMount } from "svelte";
-    import axios from "../../axios-global"; 
+    import axios from "../../axios-global";
     import Icon from "svelte-awesome";
     import { refresh } from "svelte-awesome/icons";
     import { add, parseISO, format } from "date-fns";
@@ -13,8 +13,8 @@
         lunchDays: [],
     };
     let loading = true;
-    let saving = true;
-    let publishing = true;
+    let saving;
+    let publishing;
 
     onMount(async () => {
         try {
@@ -99,8 +99,13 @@
 
         // if successful, update the main lunchWeek object's state so that Svelte will react
         lunchWeek.isPublished = !lunchWeek.isPublished;
-        publishing = false
+        publishing = false;
     }
+
+    const getPublicLink = () => {
+        const schoolPath = $user.schoolName.toLowerCase().replace(/ /g, "-");
+        return `${window.location.origin}/lunch-menu/${schoolPath}/${lunchWeek.weekOf}`;
+    };
 </script>
 
 <div>
@@ -122,18 +127,40 @@
             <Icon spin data={refresh} scale="3" />
         </div>
     {:else}
-        <section>{JSON.stringify(lunchWeek)}</section>
         <section>
             <div class="buttons">
-                <button class="button is-link is-small" on:click={() => save()}>
-                    Save
-                </button>
                 <button
-                    class="button is-text is-small"
-                    on:click={() => togglePublish()}
+                    class={saving
+                        ? "button is-link is-small is-loading"
+                        : "button is-link is-small"}
+                    on:click={() => save()}>Save</button
                 >
-                    {lunchWeek.isPublished ? "Unpublish" : "Publish"}
-                </button>
+                <button
+                    class={publishing
+                        ? "button is-text is-small is-loading"
+                        : "button is-text is-small"}
+                    on:click={() => togglePublish()}
+                    >{lunchWeek.isPublished ? "Unpublish" : "Publish"}</button
+                >
+                <!-- Add the Bulma Dropdown here -->
+                <div class="dropdown is-hoverable">
+                    <div class="dropdown-trigger">
+                        <button class="button is-text is-small">Link</button>
+                    </div>
+                    <div class="dropdown-menu" id="link-dropdown-menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-item">
+                                <p>Public Lunch Menu Link</p>
+                                <p class="mt-2">
+                                    <a href={getPublicLink()} target="_blank"
+                                        >{getPublicLink()}</a
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of bulma dropdown -->
             </div>
         </section>
         <!-- below the buttons section we just did -->
@@ -164,3 +191,8 @@
         </section>
     {/if}
 </div>
+<style>
+    #link-dropdown-menu {
+      min-width: 32rem;
+    }
+  </style>

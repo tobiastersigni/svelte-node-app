@@ -49,10 +49,10 @@
                 newLunchWeek
             );
             const lunchWeekId = response.data.lunchWeekId;
-   
+
             // populate the newLunchWeek with the id from the server response
             newLunchWeek.lunchWeekId = lunchWeekId;
-   
+
             // push the result into lunchWeek list, so that
             // Svelte will update the table
             lunchWeekList.push(newLunchWeek);
@@ -61,7 +61,7 @@
             loading = false;
             console.error(e);
         }
-    }
+    };
 
     function openDeleteModal(lunchWeek) {
         weekToDelete = lunchWeek;
@@ -89,6 +89,7 @@
             console.error(e);
         }
     }
+
 </script>
 
 <div>
@@ -146,28 +147,42 @@
 </div>
 
 <!-- Modal to create a new lunch week -->
-<div class="{showCreateModal ? 'modal is-active' : 'modal'}">
-    <div class="modal-background"></div>
+<div class={showCreateModal ? "modal is-active" : "modal"}>
+    <div class="modal-background" />
     <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Create Lunch Week</p>
-        <button class="delete" on:click="{() => (showCreateModal = false)}" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div class="field">
-          <label class="label" for="week-of">Week Of</label>
-          <div class="control">
-            <!-- bind users input for the Week Of Date to the createWeekOfDate state var -->
-            <input id="week-of" bind:value="{createWeekOfDate}" type="date" class="input" placeholder="yyyy-mm-dd" />
-          </div>
-        </div>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" on:click="{() => createLunchWeek()}">Continue</button>
-        <button class="button" on:click="{() => (showCreateModal = false)}">Cancel</button>
-      </footer>
+        <header class="modal-card-head">
+            <p class="modal-card-title">Create Lunch Week</p>
+            <button
+                class="delete"
+                on:click={() => (showCreateModal = false)}
+                aria-label="close"
+            />
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label" for="week-of">Week Of</label>
+                <div class="control">
+                    <!-- bind users input for the Week Of Date to the createWeekOfDate state var -->
+                    <input
+                        id="week-of"
+                        bind:value={createWeekOfDate}
+                        type="date"
+                        class="input"
+                        placeholder="yyyy-mm-dd"
+                    />
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success" on:click={() => createLunchWeek()}
+                >Continue</button
+            >
+            <button class="button" on:click={() => (showCreateModal = false)}
+                >Cancel</button
+            >
+        </footer>
     </div>
-  </div>
+</div>
 
 <!-- Modal popup to confirm delete -->
 <div class={showDeleteModal ? "modal is-active" : "modal"}>
